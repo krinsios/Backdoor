@@ -72,11 +72,9 @@ def sender(client):
         
 def receive():
     while True:
-        # Accept Connection
         client, address = server.accept()
         print("Connected with {}".format(str(address)))
         clients.append(client)
-        # Start Handling Thread For Client
         thread = threading.Thread(target=sender, args=(client,))
         thread.start()
 
